@@ -9,8 +9,8 @@ int main() {
   vector<int> a(N);
   for (int i = 0; i < N; ++i) cin >> a[i];
 
-  int min = 1000;
-  int min2 = 1001;
+  int min = INF;
+  int min2 = INF;
   for (int i = 0; i < N; ++i) {
     if ((a[i] < min2) && (a[i] > min)) {
       min2 = a[i];
