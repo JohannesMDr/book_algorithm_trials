@@ -18,8 +18,13 @@ int main() {
   sort(a.begin(), a.end());
   sort(b.begin(), b.end());
 
+  vector<bool> used(N, false);
+  int ans = 0;
   REP(i, N) {
-    int idx = lower_bound(b.begin(), b.end(), a[i]) - b.begin();
-
+    int idx = upper_bound(b.begin(), b.end(), a[i]) - b.begin();
+    while (!used[idx]) idx++;
+    used[idx] = true;
+    ans++;
   }
+  cout << ans << endl;
 }
