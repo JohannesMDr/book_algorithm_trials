@@ -15,5 +15,16 @@ int main() {
   vector<int> a(N);
   REP(i, N) cin >> a[i];
 
+  priority_queue<int> q;
+  FOR(i, 0, K) {
+    q.push(a[i]);
+  }
 
+  cout << q.top() << endl;
+
+  FOR(i, K, N) {
+    q.push(a[i]);
+    q.pop();
+    cout << q.top() << endl;
+  }
 }
