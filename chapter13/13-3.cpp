@@ -10,15 +10,25 @@ typedef long long ll;
 #define START ios::sync_with_stdio(false);cin.tie(0);
 
 vector<int> color;
-bool dfs(const Graph &G, int v, int cur = 0) {
-  color[v] = cur;
-  for (auto next_v : G[v]) {
-    if (color[next_v] != -1) {
-      if (color[next_v] == cur) return false;
-      continue;
+queue<int> que;
+
+bool bfs(const Graph &G, int s) {
+  color[s] = 0;
+  que.push(s);
+
+  while (!que.empty()) {
+    int v = que.front();
+    que.pop();
+
+    for (int next_v : G[v]) {
+      if (color[next_v] != -1) {
+        if (color[v] == color[next_v]) return false;
+      }
+      color[next_v] = color[v] + 1;
+      que.push(next_v);
     }
-    if (!dfs(G, next_v, 1-cur)) return false;
   }
+
   return true;
 }
 
@@ -38,7 +48,7 @@ int main() {
   bool is_bipartite = true;
   REP(v, N) {
     if (color[v] != -1) continue;
-    if (!dfs(G, v)) is_bipartite = false;
+    if (!bfs(G, v)) is_bipartite = false;
   }
   if (is_bipartite) cout << "Yes" << endl;
   else cout << "No" << endl;
