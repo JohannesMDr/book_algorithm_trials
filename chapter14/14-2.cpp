@@ -32,23 +32,30 @@ int main() {
   }
 
   // Bellman-Ford Algorithm
-  bool is_inf = false;
   vector<ll> dist(N, INF);
   dist[0] = 0;
+  REP(iter, N-1) {
+    REP(v, N) {
+      if (dist[v] == INF) continue;
+      for (auto e : G[v]) {
+        chmin(dist[e.to], dist[v] + e.w);
+      }
+    }
+  }
+
+  vector<bool> negative(N, false);
   REP(iter, N) {
-    bool update = false;
     REP(v, N) {
       if (dist[v] == INF) continue;
       for (auto e : G[v]) {
         if (chmin(dist[e.to], dist[v] + e.w)) {
-          update = true;
+          negative[e.to] = true;
         }
+        if (negative[v]) negative[e.to] = true;
       }
     }
-    if (!update) break;
-    if (iter == N-1 && update) is_inf = true;
   }
 
-  if (is_inf) cout << "inf" << endl;
+  if (negative[N-1]) cout << "inf" << endl;
   else cout << -dist[N-1] << endl;
 }
